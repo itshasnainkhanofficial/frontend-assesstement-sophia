@@ -15,7 +15,7 @@ To install the Project Management Interface, follow these steps:
 
 1. Clone the repository:
    \`\`\`
-   git clone https://github.com/yourusername/project-management-interface.git
+   git clone https://github.com/itshasnainkhanofficial/frontend-assesstement-sophia.git
    \`\`\`
 2. Navigate to the project directory:
    \`\`\`
