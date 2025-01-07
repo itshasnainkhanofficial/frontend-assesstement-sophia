@@ -21,10 +21,11 @@ export default function ProjectListPage() {
 
   return (
     <div className="flex flex-col md:flex-row w-full">
-      <div className="w-full md:w-1/4 p-4">
+      <div className="w-full md:w-1/5 p-4 md:border-r md:border-black">
         <FavoriteProjects />
       </div>
-      <div className="w-full md:w-3/4 p-4">
+     
+      <div className="w-full md:w-3/4 p-4 md:pt-20 md:pl-20">
         <h1 className="text-2xl font-bold mb-4">Project List Page</h1>
         <TableContainer component={Paper}>
           <Table>

@@ -5,7 +5,7 @@ const favoriteProjects = ['Project A', 'Project B'];
 
 export default function FavoriteProjects() {
   return (
-    <div>
+    <div className='pt-20'>
       <h2 className="text-xl font-bold mb-2">Favorite Projects</h2>
       <List>
         {favoriteProjects.map((project) => (
