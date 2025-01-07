@@ -19,7 +19,7 @@ To install the Project Management Interface, follow these steps:
    \`\`\`
 2. Navigate to the project directory:
    \`\`\`
-   cd project-management-interface
+   cd frontend-assesstement-sophia
    \`\`\`
 3. Install the dependencies:
    \`\`\`
