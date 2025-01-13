@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import ProjectListPage from './components/ProjectList';
 import ProjectDetailPage from './components/ProjectDetails';
 import { ProjectProvider } from './contexts/ProjectContext';
+import ListDetails from './components/ListDetails';
 
 const theme = createTheme();
 
@@ -18,6 +19,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<ProjectListPage />} />
               <Route path="/project/:id" element={<ProjectDetailPage />} />
+              <Route path="/list-details/:id" element={<ListDetails />} />
+
             </Routes>
           </div>
         </Router>

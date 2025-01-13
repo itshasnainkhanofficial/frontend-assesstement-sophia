@@ -1,19 +1,44 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Snackbar, Alert } from '@mui/material';
-import FavoriteProjects from '../../components/FavoriteProjects';
-import { useProjectContext } from '../../contexts/ProjectContext';
-
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import FavoriteProjects from "../../components/FavoriteProjects";
+import { useProjectContext } from "../../contexts/ProjectContext";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 export default function ProjectListPage() {
   const navigate = useNavigate();
-  const { projects, error, clearError } = useProjectContext();
+  const { projects, error, clearError, setProjects } = useProjectContext();
 
   const handleEditClick = (projectId) => {
     navigate(`/project/${projectId}`);
   };
 
+  const handleFavoriteClick = (id) => {
+    setProjects((prevProjects) =>
+      prevProjects.map((project) =>
+        project.id === id
+          ? { ...project, favorite: !project.favorite }
+          : project
+      )
+    );
+  };
+
+  const handleNameClick = (projectId) => {
+    navigate(`/list-details/${projectId}`);
+  };
+
   const handleCloseError = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     clearError();
@@ -42,11 +67,30 @@ export default function ProjectListPage() {
               {projects.map((project) => (
                 <TableRow key={project.id}>
                   <TableCell>{project.id}</TableCell>
-                  <TableCell>{project.name}</TableCell>
+                  <TableCell onClick={() => handleNameClick(project.id)}>
+                    {project.name}
+                  </TableCell>
                   <TableCell>{project.startDate}</TableCell>
                   <TableCell>{project.endDate}</TableCell>
                   <TableCell>{project.manager}</TableCell>
-                  <TableCell>
+                  <TableCell sx={{ display: "flex", gap: 3 }}>
+                    {project.favorite ? (
+                      <StarBorderIcon
+                        sx={{
+                          color: "gold",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleFavoriteClick(project.id)}
+                      />
+                    ) : (
+                      <StarBorderIcon
+                        sx={{
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleFavoriteClick(project.id)}
+                      />
+                    )}
+
                     <Button
                       variant="contained"
                       color="primary"
@@ -62,12 +106,19 @@ export default function ProjectListPage() {
           </Table>
         </TableContainer>
       </div>
-      <Snackbar open={!!error} autoHideDuration={6000} onClose={handleCloseError}>
-        <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
+      <Snackbar
+        open={!!error}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+      >
+        <Alert
+          onClose={handleCloseError}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
           {error}
         </Alert>
       </Snackbar>
     </div>
   );
 }
-
