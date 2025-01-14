@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import FavoriteProjects from "../FavoriteProjects";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 const initialProject = {
@@ -22,8 +22,9 @@ export default function ListDetails() {
 
   const { projects, favorites } = useProjectContext();
 
-  console.log("ListDetails", projects);
-
+  const handleEditClick = (projectId) => {
+    navigate(`/project/${projectId}`);
+  };
   useEffect(() => {
     const foundProject = projects.find((p) => p.id === id);
     if (foundProject) {
@@ -35,10 +36,10 @@ export default function ListDetails() {
 
   return (
     <div className="flex flex-col md:flex-row w-full">
-      <div className="w-full md:w-1/4 p-4">
+      <div className="w-full md:w-1/5 p-4 md:border-r md:border-black">
         <FavoriteProjects />
       </div>
-      <div className="w-full md:w-3/4 p-4">
+      <div className="w-full md:w-3/4 p-4 pt-20 md:pl-20">
         <h1 className="text-2xl font-bold mb-4">List Details Page</h1>
 
         <div className="flex-1 ">
@@ -117,13 +118,24 @@ export default function ListDetails() {
             </div>
           </div>
 
-          <Button
-            sx={{ marginTop: "20px" }}
-            variant="outlined"
-            onClick={() => navigate("/")}
-          >
-            Back
-          </Button>
+          <div className="flex gap-[20px]">
+            <Button
+              sx={{ marginTop: "20px" }}
+              variant="outlined"
+              onClick={() => navigate("/")}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              sx={{ marginTop: "20px" }}
+              onClick={() => handleEditClick(project.id)}
+            >
+              Edit
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -17,24 +17,34 @@ import { useProjectContext } from "../../contexts/ProjectContext";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 export default function ProjectListPage() {
   const navigate = useNavigate();
-  const { projects, error, clearError, setProjects } = useProjectContext();
+  const {
+    projects,
+    error,
+    clearError,
+    setProjects,
+    favoriteProject,
+    setFavoriteProject,
+  } = useProjectContext();
 
   const handleEditClick = (projectId) => {
     navigate(`/project/${projectId}`);
   };
 
-  const handleFavoriteClick = (id) => {
+  const handleFavoriteClick = (project) => {
     setProjects((prevProjects) =>
-      prevProjects.map((project) =>
-        project.id === id
-          ? { ...project, favorite: !project.favorite }
-          : project
+      prevProjects.map((p) =>
+        p.id === project.id ? { ...p, favorite: !p.favorite } : p
       )
     );
-  };
 
-  const handleNameClick = (projectId) => {
-    navigate(`/list-details/${projectId}`);
+    setFavoriteProject((prev) => {
+      const isFavorite = prev.some((p) => p.id === project.id);
+      if (isFavorite) {
+        return prev.filter((p) => p.id !== project.id);
+      } else {
+        return [...prev, { ...project, favorite: true }];
+      }
+    });
   };
 
   const handleCloseError = (event, reason) => {
@@ -49,7 +59,7 @@ export default function ProjectListPage() {
       <div className="w-full md:w-1/5 p-4 md:border-r md:border-black">
         <FavoriteProjects />
       </div>
-     
+
       <div className="w-full md:w-3/4 p-4 md:pt-20 md:pl-20">
         <h1 className="text-2xl font-bold mb-4">Project List Page</h1>
         <TableContainer component={Paper}>
@@ -67,13 +77,21 @@ export default function ProjectListPage() {
             <TableBody>
               {projects.map((project) => (
                 <TableRow key={project.id}>
-                  <TableCell>{project.id}</TableCell>
-                  <TableCell onClick={() => handleNameClick(project.id)}>
+                  <TableCell sx={{ pointerEvents: "none" }}>
+                    {project.id}
+                  </TableCell>
+                  <TableCell sx={{ pointerEvents: "none" }}>
                     {project.name}
                   </TableCell>
-                  <TableCell>{project.startDate}</TableCell>
-                  <TableCell>{project.endDate}</TableCell>
-                  <TableCell>{project.manager}</TableCell>
+                  <TableCell sx={{ pointerEvents: "none" }}>
+                    {project.startDate}
+                  </TableCell>
+                  <TableCell sx={{ pointerEvents: "none" }}>
+                    {project.endDate}
+                  </TableCell>
+                  <TableCell sx={{ pointerEvents: "none" }}>
+                    {project.manager}
+                  </TableCell>
                   <TableCell sx={{ display: "flex", gap: 3 }}>
                     {project.favorite ? (
                       <StarBorderIcon
@@ -81,14 +99,14 @@ export default function ProjectListPage() {
                           color: "gold",
                           cursor: "pointer",
                         }}
-                        onClick={() => handleFavoriteClick(project.id)}
+                        onClick={() => handleFavoriteClick(project)}
                       />
                     ) : (
                       <StarBorderIcon
                         sx={{
                           cursor: "pointer",
                         }}
-                        onClick={() => handleFavoriteClick(project.id)}
+                        onClick={() => handleFavoriteClick(project)}
                       />
                     )}
 

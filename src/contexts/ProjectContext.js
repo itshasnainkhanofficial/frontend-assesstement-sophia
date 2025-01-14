@@ -56,7 +56,7 @@ export const ProjectProvider = ({ children }) => {
       favorite: false,
     },
   ]);
-
+  const [favoriteProject, setFavoriteProject] = useState([]);
 
   const [error, setError] = useState(null);
 
@@ -85,7 +85,9 @@ export const ProjectProvider = ({ children }) => {
         updateProject,
         error,
         clearError,
-        setProjects
+        setProjects,
+        favoriteProject,
+        setFavoriteProject,
       }}
     >
       {children}
